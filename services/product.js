@@ -1,0 +1,52 @@
+const Product = require('../models/Products.js')
+
+async function createProduct(productData){
+    const product = new Product(productData)
+    await product.save()
+    return Product
+}
+
+async function getAllProducts(){
+    const products = await Product.find({}).lean()
+   
+    return products
+}
+
+async function getProductById(id){
+    const product = await Product.findById(id).populate('author').lean()
+    
+    return product
+}
+
+async function editProduct(id,productData){
+    const product = await Product.findById(id)
+    
+    product.name = productData.name
+    product.technique = productData.technique
+    product.imageUrl = productData.imageUrl
+    product.certificate = productData.certificate
+    
+
+    return product.save()
+}
+async function deleteProduct(product){
+    return Product.findOneAndDelete(product)
+    
+}
+async function voteProductUp(productId,userId){
+    const product = await Product.findById(productId)
+    product.voted.push(userId)
+    product.vote ++
+    return product.save()
+}
+
+
+
+module.exports = {
+    createProduct,
+    getAllProducts,
+    getProductById,
+    editProduct,
+    deleteProduct,
+    voteProductUp,
+}
