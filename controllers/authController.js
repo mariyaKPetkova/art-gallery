@@ -77,7 +77,9 @@ router.get('/my-posts', async (req, res) => {
     
     const userData = await getUserById(req.user._id)
     const posts = await req.storage.getAllProducts()
-    userData.userPosts = posts.filter(x => x.author == req.user._id).map(x=>x.name).join(', ')
+
+    const userP = posts.filter(x => x.author == req.user._id).map(x=>x.name)
+    userData.userPosts = userP.length > 0? userP.join(', '): 'Not yet.'
     //console.log(userData)
     res.render('user/my-posts',{userData})
 })
