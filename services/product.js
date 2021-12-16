@@ -1,4 +1,5 @@
 const Product = require('../models/Products.js')
+const User = require('../models/User.js')
 
 async function createProduct(productData){
     const product = new Product(productData)
@@ -33,11 +34,13 @@ async function deleteProduct(product){
     return Product.findOneAndDelete(product)
     
 }
-async function voteProductUp(productId,userId){
+async function shareProduct(productId,userId){
     const product = await Product.findById(productId)
-    product.voted.push(userId)
-    product.vote ++
-    return product.save()
+    const user = await User.findById(userId)
+    product.share.push(userId)
+    user.share.push(productId)
+    product.shares ++
+    return Promise.all([product.save(),user.save()])
 }
 
 
@@ -48,5 +51,5 @@ module.exports = {
     getProductById,
     editProduct,
     deleteProduct,
-    voteProductUp,
+    shareProduct
 }

@@ -20,11 +20,11 @@
                             {{/if}}
                             <!-- logged in user who has not yet shared the publication-->
                             {{#if product.isntAuthor}}
-                            {{#if product.isVoted}}
+                            {{#if product.isShared}}
                             <p class="shared-pub">You already shared this publication</p>
                             <!-- logged in user who has already shared the publication-->
                             {{else}}
-                            <a href="/products/vote-up/{{product._id}}" class="btn-share">Share publication</a>
+                            <a href="/products/shareProduct/{{product._id}}" class="btn-share">Share publication</a>
                             
                             {{/if}}
                             {{/if}}

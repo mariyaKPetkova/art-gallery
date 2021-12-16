@@ -22,8 +22,8 @@ const schema = new Schema({
         match: [/^yes$|^no$/igm , 'The certificate should be  Yes or No']
     },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
-    voted: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
-    vote: { type: Number, default: 0 }
+    share: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+    shares: { type: Number, default: 0 }
 })
 
 module.exports = model('Product', schema)

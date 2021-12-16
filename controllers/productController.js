@@ -52,7 +52,7 @@ router.get('/details/:id', async (req, res) => {
         product.hasUser = Boolean(req.user)
         product.isAuthor = req.user && req.user._id == product.author._id
         product.isntAuthor = req.user && req.user._id != product.author._id
-        product.isVoted = req.user && product.voted.find(x => x._id == req.user._id)
+        product.isShared = req.user && product.share.find(x => x._id == req.user._id)
 
         
         res.render('product/details', { product })
@@ -121,16 +121,17 @@ router.get('/delete/:id', isUser(), async (req, res) => {
     }
 })
 
-router.get('/vote-up/:id', isUser(), async (req, res) => {
+router.get('/shareProduct/:id', isUser(), async (req, res) => {
     try {
         const product = await req.storage.getProductById(req.params.id)
         if (req.user._id == product.author._id) {
             throw new Error('Cannot share')
         }
 
-        await req.storage.voteProductUp(req.params.id, req.user._id)
+        await req.storage.shareProduct(req.params.id, req.user._id)
         res.redirect('/products/details/' + req.params.id)
     } catch (err) {
+        console.log(err)
         res.redirect('/404')
     }
 })
