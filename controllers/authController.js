@@ -81,8 +81,7 @@ router.get('/my-posts', async (req, res) => {
     const userP = posts.filter(x => x.author == req.user._id).map(x=>x.name)
     userData.userPosts = userP.length > 0? userP.join(', '): 'Not yet.'
 
-    //const userS = userData.userShare.reduce(()=>{posts.filter(x => x._id == sharedProductId).map(x=>x.name)
-    userData.userShare = userData.share.length > 0? userData.share.join(', '): 'Not yet.'
+    userData.userShare = userData.share.length > 0? userData.share.length : 'Not yet.'
     console.log(userData)
     res.render('user/my-posts',{userData})
 })
